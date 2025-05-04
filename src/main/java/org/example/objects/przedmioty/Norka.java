@@ -1,4 +1,4 @@
-package org.example.objects;
+package org.example.objects.przedmioty;
 
 public class Norka extends ObiektPlanszy {
 
@@ -8,6 +8,6 @@ public class Norka extends ObiektPlanszy {
 
     @Override
     public void wyswietl() {
-        System.out.print("N"); // Symbol kryjówki na planszy
+        System.out.print("N");
     }
 }

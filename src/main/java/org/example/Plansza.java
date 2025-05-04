@@ -1,10 +1,11 @@
 package org.example;
 
-import org.example.objects.Kot;
-import org.example.objects.Mysz;
-import org.example.objects.Norka;
-import org.example.objects.ObiektPlanszy;
-import org.example.objects.Ser;
+import org.example.objects.przedmioty.Norka;
+import org.example.objects.przedmioty.ObiektPlanszy;
+import org.example.objects.przedmioty.Ser;
+import org.example.objects.zwierzeta.Kot;
+import org.example.objects.zwierzeta.Mysz;
+import org.example.objects.zwierzeta.Zwierze;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +83,7 @@ public class Plansza {
         }
     }
 
-    private void dodajLosowyObiekt(ObiektPlanszy obiekt, List<Norka> norkiList, List<Mysz> myszyList, List<Ser> seryList, List<Kot> kotyList) {
+    private void dodajLosowyObiekt(ObiektPlanszy obiekt, List<? extends ObiektPlanszy>... lists) {
         int x, y;
         boolean zajete;
         do {
@@ -91,30 +92,16 @@ public class Plansza {
             obiekt.setX(x);
             obiekt.setY(y);
             zajete = false;
-            if (norkiList != null) {
-                for (Norka n : norkiList) {
-                    if (n.getX() == x && n.getY() == y) zajete = true;
+            for (List<? extends ObiektPlanszy> list : lists) {
+                if (list != null) {
+                    for (ObiektPlanszy element : list) {
+                        if (element.getX() == x && element.getY() == y) {
+                            zajete = true;
+                            break;
+                        }
+                    }
                 }
-            }
-            if (myszyList != null) {
-                for (Mysz m : myszyList) {
-                    if (m.getX() == x && m.getY() == y) zajete = true;
-                }
-            }
-            if (seryList != null) {
-                for (Ser s : seryList) {
-                    if (s.getX() == x && s.getY() == y) zajete = true;
-                }
-            }
-            if (kotyList != null) {
-                for (Kot c : kotyList) {
-                    if (c.getX() == x && c.getY() == y) zajete = true;
-                }
-            }
-            if (obiekt instanceof Kot && norkiList != null) {
-                for (Norka n : norkiList) {
-                    if (n.getX() == x && n.getY() == y) zajete = true;
-                }
+                if (zajete) break;
             }
         } while (zajete);
 
@@ -134,10 +121,10 @@ public class Plansza {
         int norkaY = norka.getY();
         int prob = 0;
         boolean udaloSie = false;
-        while (prob < 10 && !udaloSie) { // Próbuj 10 razy znaleźć wolne sąsiednie pole
-            int dx = random.nextInt(3) - 1; // -1, 0, 1
+        while (prob < 10 && !udaloSie) {
+            int dx = random.nextInt(3) - 1;
             int dy = random.nextInt(3) - 1;
-            if (dx == 0 && dy == 0) continue; // Nie chcemy tej samej pozycji
+            if (dx == 0 && dy == 0) continue;
 
             int noweX = norkaX + dx;
             int noweY = norkaY + dy;
@@ -196,46 +183,44 @@ public class Plansza {
         boolean nowaMyszDodanaWKroku = false;
 
         if (krokSymulacji > 1) {
-            // Losowo dodaj nową mysz w pobliżu norki (maksymalnie jedną na krok)
             if (!nowaMyszDodanaWKroku && random.nextDouble() < 0.5 && !norki.isEmpty() && liczbaZywychMyszy > 0 && myszy.size() < norki.size()) {
                 Norka losowaNorka = norki.get(random.nextInt(norki.size()));
                 if (dodajLosowaMysz(losowaNorka)) {
-                    liczbaZywychMyszy--; // Zmniejszamy liczbę żywych myszy, gdy jedna wyjdzie z norki
+                    liczbaZywychMyszy--;
                     nowaMyszDodanaWKroku = true;
                 }
             }
 
-            // Poruszanie się myszy
             for (Mysz mysz : myszy) {
                 mysz.poruszajSie(szerokosc, wysokosc);
             }
 
-            // Poruszanie się kotów
             for (Kot kot : koty) {
                 kot.poruszajSie(szerokosc, wysokosc);
             }
 
-            // Kot zjada mysz
             List<Mysz> zjedzoneMyszy = new ArrayList<>();
             for (Kot kot : koty) {
                 for (Mysz mysz : myszy) {
                     if (kot.getX() == mysz.getX() && kot.getY() == mysz.getY() && mysz.czyAktywna() && kot.czyZywy()) {
                         kot.zjedzMysz();
                         zjedzoneMyszy.add(mysz);
-                        liczbaZywychMyszy--; // Zmniejszamy liczbę żywych myszy po zjedzeniu
-                        break; // Kot zjada tylko jedną mysz na krok
+                        liczbaZywychMyszy--;
+                        break;
                     }
                 }
             }
             myszy.removeAll(zjedzoneMyszy);
 
-            // Zjadanie sera i pojawianie się nowego
             List<Ser> zjedzonySer = new ArrayList<>();
             for (Mysz mysz : myszy) {
-                for (Ser ser : sery) {
-                    if (mysz.getX() == ser.getX() && mysz.getY() == ser.getY()) {
-                        mysz.zjedzSer();
-                        zjedzonySer.add(ser);
+                if (mysz.czyAktywna()) {
+                    for (Ser ser : sery) {
+                        if (mysz.getX() == ser.getX() && mysz.getY() == ser.getY()) {
+                            mysz.zjedzSer();
+                            zjedzonySer.add(ser);
+                            break;
+                        }
                     }
                 }
             }
@@ -244,7 +229,6 @@ public class Plansza {
                 sery.add(stworzLosowySer());
             }
 
-            // Usuwanie nieaktywnych myszy i martwych kotów
             myszy.removeIf(Mysz::czyNieaktywna);
             koty.removeIf(kot -> !kot.czyZywy());
         }
@@ -278,7 +262,7 @@ public class Plansza {
 
         for (Kot kot : koty) {
             if (kot.getY() < wysokosc && kot.getX() < szerokosc && kot.czyZywy()) {
-                mapa[kot.getY()][kot.getX()] = 'C';
+                mapa[kot.getY()][kot.getX()] = 'K';
             }
         }
 

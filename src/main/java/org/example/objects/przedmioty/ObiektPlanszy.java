@@ -1,4 +1,4 @@
-package org.example.objects;
+package org.example.objects.przedmioty;
 
 public abstract class ObiektPlanszy {
     protected int x;
@@ -25,5 +25,5 @@ public abstract class ObiektPlanszy {
         this.y = y;
     }
 
-    public abstract void wyswietl(); // Metoda abstrakcyjna do wyświetlania obiektu
+    public abstract void wyswietl();
 }

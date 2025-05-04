@@ -1,7 +1,6 @@
-package org.example.objects;
+package org.example.objects.zwierzeta;
 
-public class Kot extends ObiektPlanszy {
-    private int energia;
+public class Kot extends Zwierze {
     private final int maxEnergia = 20;
 
     public Kot(int szerokoscPlanszy, int wysokoscPlanszy) {
@@ -9,16 +8,9 @@ public class Kot extends ObiektPlanszy {
         this.energia = maxEnergia;
     }
 
-    public int getEnergia() {
-        return energia;
-    }
-
-    public void setEnergia(int energia) {
-        this.energia = Math.min(energia, maxEnergia);
-    }
-
+    @Override
     public void poruszajSie(int szerokoscPlanszy, int wysokoscPlanszy) {
-        int dx = (int) (Math.random() * 5) - 2; // -2, -1, 0, 1, 2
+        int dx = (int) (Math.random() * 5) - 2;
         int dy = (int) (Math.random() * 5) - 2;
 
         int noweX = x + dx;
@@ -35,12 +27,13 @@ public class Kot extends ObiektPlanszy {
         this.energia = maxEnergia;
     }
 
+    @Override
     public boolean czyZywy() {
         return energia > 0;
     }
 
     @Override
     public void wyswietl() {
-        System.out.print("K"); // Symbol kota na planszy
+        System.out.print("K");
     }
 }

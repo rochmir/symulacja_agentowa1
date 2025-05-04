@@ -1,10 +1,10 @@
-package org.example.objects;
+package org.example.objects.zwierzeta;
 
-public class Mysz extends ObiektPlanszy {
-    private int energia;
+public class Mysz extends Zwierze {
     private final int maxEnergia = 20;
     private int krokiDoZnikniecia;
     private final int maxKrokiDoZnikniecia = 10;
+    private boolean aktywna = true;
 
     public Mysz(int szerokoscPlanszy, int wysokoscPlanszy) {
         super(szerokoscPlanszy, wysokoscPlanszy);
@@ -12,7 +12,6 @@ public class Mysz extends ObiektPlanszy {
         this.krokiDoZnikniecia = maxKrokiDoZnikniecia;
     }
 
-    // Nowy konstruktor pozwalający na ustawienie konkretnej pozycji
     public Mysz(int szerokoscPlanszy, int wysokoscPlanszy, int x, int y) {
         super(szerokoscPlanszy, wysokoscPlanszy);
         this.x = x;
@@ -21,25 +20,18 @@ public class Mysz extends ObiektPlanszy {
         this.krokiDoZnikniecia = maxKrokiDoZnikniecia;
     }
 
-    public int getEnergia() {
-        return energia;
-    }
-
-    public void setEnergia(int energia) {
-        this.energia = Math.min(energia, maxEnergia);
-    }
-
     public boolean czyAktywna() {
-        return krokiDoZnikniecia > 0;
+        return aktywna && krokiDoZnikniecia > 0;
     }
 
     public boolean czyNieaktywna() {
         return !czyAktywna();
     }
 
+    @Override
     public void poruszajSie(int szerokoscPlanszy, int wysokoscPlanszy) {
         if (czyAktywna()) {
-            int dx = (int) (Math.random() * 3) - 1; // -1, 0, 1
+            int dx = (int) (Math.random() * 3) - 1;
             int dy = (int) (Math.random() * 3) - 1;
 
             int noweX = x + dx;
@@ -50,12 +42,21 @@ public class Mysz extends ObiektPlanszy {
                 this.y = noweY;
             }
             krokiDoZnikniecia--;
+            if (krokiDoZnikniecia <= 0) {
+                aktywna = false;
+            }
         }
     }
 
     public void zjedzSer() {
         this.energia = maxEnergia;
-        this.krokiDoZnikniecia = maxKrokiDoZnikniecia; // Resetuje czas życia po zjedzeniu sera
+        this.krokiDoZnikniecia = maxKrokiDoZnikniecia;
+        this.aktywna = true;
+    }
+
+    @Override
+    public boolean czyZywy() {
+        return aktywna;
     }
 
     @Override

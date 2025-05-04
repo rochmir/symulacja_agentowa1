@@ -1,29 +1,23 @@
-package org.example.objects;
+package org.example.objects.zwierzeta;
 
-public abstract class ObiektPlanszy {
-    protected int x;
-    protected int y;
+import org.example.objects.przedmioty.ObiektPlanszy;
 
-    public ObiektPlanszy(int szerokoscPlanszy, int wysokoscPlanszy) {
-        this.x = (int) (Math.random() * szerokoscPlanszy);
-        this.y = (int) (Math.random() * wysokoscPlanszy);
+public abstract class Zwierze extends ObiektPlanszy {
+    protected int energia;
+
+    public Zwierze(int szerokoscPlanszy, int wysokoscPlanszy) {
+        super(szerokoscPlanszy, wysokoscPlanszy);
+        this.energia = 0; // Domyślna energia, klasy potomne powinny ją ustawić
     }
 
-    public int getX() {
-        return x;
+    public int getEnergia() {
+        return energia;
     }
 
-    public int getY() {
-        return y;
+    public void setEnergia(int energia) {
+        this.energia = energia;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public abstract void wyswietl(); // Metoda abstrakcyjna do wyświetlania obiektu
+    public abstract void poruszajSie(int szerokoscPlanszy, int wysokoscPlanszy);
+    public abstract boolean czyZywy();
 }

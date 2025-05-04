@@ -1,4 +1,4 @@
-package org.example.objects;
+package org.example.objects.przedmioty;
 
 public class Ser extends ObiektPlanszy {
 
