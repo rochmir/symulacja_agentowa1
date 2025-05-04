@@ -11,7 +11,7 @@ public class Symulacja {
         int szerokosc = scanner.nextInt();
         System.out.print("Podaj wysokosc planszy: ");
         int wysokosc = scanner.nextInt();
-        System.out.print("Podaj poczatkowa liczbe norek: ");
+        System.out.print("Podaj poczatkowa liczbe myszy: ");
         int liczbaNorek = scanner.nextInt();
         System.out.print("Podaj poczatkowa liczbe kotow: ");
         int liczbaKotow = scanner.nextInt();
@@ -19,7 +19,7 @@ public class Symulacja {
         Plansza plansza = new Plansza(szerokosc, wysokosc, liczbaNorek, liczbaKotow);
         int kroki = 0;
 
-        System.out.println("Uruchomiono symulację. Trwa do momentu wyginięcia wszystkich żywych myszy lub kotów.");
+        System.out.println("Uruchomiono symulacje. Trwa do momentu wyginiecia wszystkich zywych myszy lub kotow.");
 
         while (!plansza.getKoty().isEmpty() && plansza.getLiczbaZywychMyszy() > 0) {
             System.out.println("Krok: " + kroki);
@@ -36,11 +36,11 @@ public class Symulacja {
         }
 
         System.out.println("--------------------");
-        System.out.println("Symulacja zakończona po " + kroki + " krokach.");
+        System.out.println("Symulacja zakonczona po " + kroki + " krokach.");
         if (plansza.getLiczbaZywychMyszy() == 0) {
-            System.out.println("Wszystkie żywe myszy zniknęły!");
+            System.out.println("Wszystkie zywe myszy zniknely!");
         } else if (plansza.getKoty().isEmpty()) {
-            System.out.println("Wszystkie koty zniknęły!");
+            System.out.println("Wszystkie koty zniknely!");
         }
         scanner.close();
     }

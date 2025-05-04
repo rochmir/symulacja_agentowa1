@@ -1,4 +1,4 @@
-package org.example.objects.przedmioty;
+package org.example.objects;
 
 public abstract class ObiektPlanszy {
     protected int x;

@@ -1,6 +1,6 @@
 package org.example.objects.zwierzeta;
 
-import org.example.objects.przedmioty.ObiektPlanszy;
+import org.example.objects.ObiektPlanszy;
 
 public abstract class Zwierze extends ObiektPlanszy {
     protected int energia;

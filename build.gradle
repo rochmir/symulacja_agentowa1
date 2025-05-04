@@ -28,3 +28,6 @@ jar {
     }
     duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}

@@ -1,62 +1,55 @@
 package org.example.objects.zwierzeta;
 
 public class Mysz extends Zwierze {
-    private final int maxEnergia = 20;
-    private int krokiDoZnikniecia;
-    private final int maxKrokiDoZnikniecia = 10;
-    private boolean aktywna = true;
+    private boolean aktywna = false; // Domyślnie mysz nie jest aktywna
 
     public Mysz(int szerokoscPlanszy, int wysokoscPlanszy) {
         super(szerokoscPlanszy, wysokoscPlanszy);
-        this.energia = maxEnergia;
-        this.krokiDoZnikniecia = maxKrokiDoZnikniecia;
+        this.energia = 5; // Początkowa energia myszy
     }
 
     public Mysz(int szerokoscPlanszy, int wysokoscPlanszy, int x, int y) {
         super(szerokoscPlanszy, wysokoscPlanszy);
         this.x = x;
         this.y = y;
-        this.energia = maxEnergia;
-        this.krokiDoZnikniecia = maxKrokiDoZnikniecia;
+        this.aktywna = true; // Mysz stworzona poza norką jest aktywna
+        this.energia = 5; // Początkowa energia myszy
     }
 
     public boolean czyAktywna() {
-        return aktywna && krokiDoZnikniecia > 0;
+        return aktywna;
     }
 
-    public boolean czyNieaktywna() {
-        return !czyAktywna();
+    public void ustawAktywna(boolean aktywna) {
+        this.aktywna = aktywna;
     }
 
     @Override
     public void poruszajSie(int szerokoscPlanszy, int wysokoscPlanszy) {
-        if (czyAktywna()) {
-            int dx = (int) (Math.random() * 3) - 1;
-            int dy = (int) (Math.random() * 3) - 1;
+        int dx = (int) (Math.random() * 3) - 1;
+        int dy = (int) (Math.random() * 3) - 1;
+        int noweX = x + dx;
+        int noweY = y + dy;
 
-            int noweX = x + dx;
-            int noweY = y + dy;
-
-            if (noweX >= 0 && noweX < szerokoscPlanszy && noweY >= 0 && noweY < wysokoscPlanszy) {
-                this.x = noweX;
-                this.y = noweY;
-            }
-            krokiDoZnikniecia--;
-            if (krokiDoZnikniecia <= 0) {
-                aktywna = false;
-            }
+        if (noweX >= 0 && noweX < szerokoscPlanszy && noweY >= 0 && noweY < wysokoscPlanszy) {
+            this.x = noweX;
+            this.y = noweY;
+            this.aktywna = true; // Mysz staje się aktywna po pierwszym ruchu
         }
-    }
-
-    public void zjedzSer() {
-        this.energia = maxEnergia;
-        this.krokiDoZnikniecia = maxKrokiDoZnikniecia;
-        this.aktywna = true;
+        energia--;
     }
 
     @Override
     public boolean czyZywy() {
-        return aktywna;
+        return energia > 0;
+    }
+
+    public void zjedzSer() {
+        this.energia += 10;
+    }
+
+    public boolean czyNieaktywna() {
+        return energia <= 0;
     }
 
     @Override

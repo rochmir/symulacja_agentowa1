@@ -1,11 +1,10 @@
 package org.example;
 
-import org.example.objects.przedmioty.Norka;
-import org.example.objects.przedmioty.ObiektPlanszy;
-import org.example.objects.przedmioty.Ser;
+import org.example.objects.Norka;
+import org.example.objects.ObiektPlanszy;
+import org.example.objects.Ser;
 import org.example.objects.zwierzeta.Kot;
 import org.example.objects.zwierzeta.Mysz;
-import org.example.objects.zwierzeta.Zwierze;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,6 +102,14 @@ public class Plansza {
                 }
                 if (zajete) break;
             }
+            if (obiekt instanceof Kot && norki != null) {
+                for (Norka norka : norki) {
+                    if (norka.getX() == x && norka.getY() == y) {
+                        zajete = true;
+                        break;
+                    }
+                }
+            }
         } while (zajete);
 
         if (obiekt instanceof Norka) {
@@ -150,10 +157,7 @@ public class Plansza {
             }
             prob++;
         }
-        if (udaloSie) {
-            return true;
-        }
-        return false;
+        return udaloSie;
     }
 
     private Ser stworzLosowySer() {
@@ -196,7 +200,16 @@ public class Plansza {
             }
 
             for (Kot kot : koty) {
+                int stareX = kot.getX();
+                int stareY = kot.getY();
                 kot.poruszajSie(szerokosc, wysokosc);
+                for (Norka norka : norki) {
+                    if (kot.getX() == norka.getX() && kot.getY() == norka.getY()) {
+                        kot.setX(stareX);
+                        kot.setY(stareY);
+                        break;
+                    }
+                }
             }
 
             List<Mysz> zjedzoneMyszy = new ArrayList<>();
@@ -213,11 +226,11 @@ public class Plansza {
             myszy.removeAll(zjedzoneMyszy);
 
             List<Ser> zjedzonySer = new ArrayList<>();
-            for (Mysz mysz : myszy) {
-                if (mysz.czyAktywna()) {
+            for (Mysz myszyNaPlanszy : myszy) {
+                if (myszyNaPlanszy.czyAktywna()) {
                     for (Ser ser : sery) {
-                        if (mysz.getX() == ser.getX() && mysz.getY() == ser.getY()) {
-                            mysz.zjedzSer();
+                        if (myszyNaPlanszy.getX() == ser.getX() && myszyNaPlanszy.getY() == ser.getY()) {
+                            myszyNaPlanszy.zjedzSer();
                             zjedzonySer.add(ser);
                             break;
                         }
