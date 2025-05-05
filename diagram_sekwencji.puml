@@ -1,0 +1,25 @@
+@startuml
+actor "Symulacja" as Sim
+object kot1: Kot
+object planszaGlowna: Plansza
+object mysz1: Mysz
+
+Sim -> kot1 : poruszajSie(10, 10)
+kot1 -> kot1 : obliczNowaPozycje()
+kot1 -> planszaGlowna : czyPoleZajetePrzezNorke(5, 5)
+planszaGlowna --> kot1 : false
+kot1 -> kot1 : aktualizujPozycje(5, 5)
+Sim -> planszaGlowna : sprawdzKolizje()
+planszaGlowna -> kot1 : getX()
+planszaGlowna -> kot1 : getY()
+planszaGlowna -> mysz1 : getX()
+planszaGlowna -> mysz1 : getY()
+planszaGlowna -> mysz1 : czyAktywna()
+alt Pozycja kota == pozycja myszy && mysz aktywna && kot żywy
+  planszaGlowna -> kot1 : zjedzMysz()
+  kot1 -> kot1 : energia++
+  planszaGlowna -> mysz1 : // Oznacz jako zjedzoną/usuń z listy
+  planszaGlowna -> planszaGlowna : liczbaZywychMyszy--
+end
+
+@enduml

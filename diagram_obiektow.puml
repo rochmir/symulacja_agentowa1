@@ -1,0 +1,59 @@
+@startuml
+object planszaGlowna{
+  szerokosc = 10
+  wysokosc = 10
+  liczbaNorek = 3
+  liczbaMyszy = 2
+  liczbaSerow = 2
+  liczbaKotow = 1
+  krokSymulacji = 5
+}
+
+object norka1{
+  x = 1
+  y = 1
+}
+
+object norka2{
+  x = 8
+  y = 3
+}
+
+
+object mysz1{
+  x = 5
+  y = 5
+  energia = 6
+  aktywna = true
+}
+
+object mysz2{
+  x = 2
+  y = 6
+  energia = 4
+  aktywna = true
+}
+
+object kot1{
+  x = 5
+  y = 4
+  energia = 18
+}
+
+object ser1{
+  x = 6
+  y = 5
+}
+object ser2{
+  x = 3
+  y = 5
+}
+
+planszaGlowna --* norka1
+planszaGlowna --* norka2
+planszaGlowna --* mysz1
+planszaGlowna --* mysz2
+planszaGlowna --* kot1
+planszaGlowna --* ser1
+planszaGlowna --* ser2
+@enduml

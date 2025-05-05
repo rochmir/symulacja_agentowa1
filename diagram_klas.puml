@@ -1,0 +1,91 @@
+@startuml
+package org.example {
+  class Plansza {
+    - szerokosc: int
+    - wysokosc: int
+    - norki: List<Norka>
+    - myszy: List<Mysz>
+    - sery: List<Ser>
+    - koty: List<Kot>
+    - liczbaZywychMyszy: int
+    - poczatkowaLiczbaKotow: int
+    - krokSymulacji: int
+    - random: Random
+    + Plansza(szerokosc: int, wysokosc: int, liczbaNorek: int, liczbaKotow: int)
+    + getSzerokosc(): int
+    + getWysokosc(): int
+    + getNorki(): List<Norka>
+    + getMyszy(): List<Mysz>
+    + getSery(): List<Ser>
+    + getKoty(): List<Kot>
+    + getLiczbaZywychMyszy(): int
+    - inicjalizujNorki(liczbaNorek: int): void
+    - inicjalizujKoty(liczbaKotow: int): void
+    - inicjalizujSery(liczbaSerow: int): void
+    - dodajLosowyObiekt(obiekt: ObiektPlanszy, lists: List<ObiektPlanszy>...): void
+    - dodajLosowaMysz(norka: Norka): boolean
+    - stworzLosowySer(): Ser
+    + symulujKrok(): void
+    + wyswietlPlansze(): void
+  }
+
+  abstract class ObiektPlanszy {
+    # x: int
+    # y: int
+    + ObiektPlanszy(szerokoscPlanszy: int, wysokoscPlanszy: int)
+    + getX(): int
+    + getY(): int
+    + setX(x: int): void
+    + setY(y: int): void
+    + abstract wyswietl(): void
+  }
+
+  class Norka extends ObiektPlanszy {
+    + Norka(szerokoscPlanszy: int, wysokoscPlanszy: int)
+    + wyswietl(): void
+  }
+
+  class Ser extends ObiektPlanszy {
+    + Ser(szerokoscPlanszy: int, wysokoscPlanszy: int)
+    + wyswietl(): void
+  }
+
+  abstract class Zwierze extends ObiektPlanszy {
+    # energia: int
+    + Zwierze(szerokoscPlanszy: int, wysokoscPlanszy: int)
+    + getEnergia(): int
+    + setEnergia(energia: int): void
+    + abstract poruszajSie(szerokoscPlanszy: int, wysokoscPlanszy: int): void
+    + abstract czyZywy(): boolean
+  }
+
+  class Kot extends Zwierze {
+    - maxEnergia: int
+    + Kot(szerokoscPlanszy: int, wysokoscPlanszy: int)
+    + poruszajSie(szerokoscPlanszy: int, wysokoscPlanszy: int): void
+    + czyZywy(): boolean
+    + zjedzMysz(): void
+    + wyswietl(): void
+  }
+
+  class Mysz extends Zwierze {
+    - aktywna: boolean
+    + Mysz(szerokoscPlanszy: int, wysokoscPlanszy: int)
+    + Mysz(szerokoscPlanszy: int, wysokoscPlanszy: int, x: int, y: int)
+    + czyAktywna(): boolean
+    + ustawAktywna(aktywna: boolean): void
+    + poruszajSie(szerokoscPlanszy: int, wysokoscPlanszy: int): void
+    + czyZywy(): boolean
+    + zjedzSer(): void
+    + czyNieaktywna(): boolean
+    + wyswietl(): void
+  }
+
+  Plansza --* Norka
+  Plansza --* Mysz
+  Plansza --* Ser
+  Plansza --* Kot
+  Zwierze <|-- Kot
+  Zwierze <|-- Mysz
+}
+@enduml
