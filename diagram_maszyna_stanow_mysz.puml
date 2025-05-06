@@ -1,13 +1,10 @@
 @startuml
-state "W norce" as W_norce
-state "Aktywna" as Aktywna
-state "Zjadła ser" as Zjadla_ser
-state "Nieaktywna" as Nieaktywna
 
-W_norce --> Aktywna : Wykonaj ruch
-Aktywna --> Zjadla_ser : Najedź na Ser
-Aktywna --> Nieaktywna : energia <= 0
-Zjadla_ser --> Aktywna : Wykonaj ruch
-Zjadla_ser --> Nieaktywna : energia <= 0
+[*] --> Nieaktywna
+Nieaktywna --> Aktywna : poruszajSie()
+Nieaktywna --> [*] : energia <= 0
+Aktywna --> [*] : kot na tym samym polu
+Aktywna --> [*] : energia <= 0
+Aktywna --> Aktywna : zjedzSer()\n(energia += 10)
 
 @enduml

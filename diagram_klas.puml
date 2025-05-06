@@ -1,91 +1,103 @@
 @startuml
-package org.example {
+
+package "org.example" {
   class Plansza {
-    - szerokosc: int
-    - wysokosc: int
-    - norki: List<Norka>
-    - myszy: List<Mysz>
-    - sery: List<Ser>
-    - koty: List<Kot>
-    - liczbaZywychMyszy: int
-    - poczatkowaLiczbaKotow: int
-    - krokSymulacji: int
-    - random: Random
-    + Plansza(szerokosc: int, wysokosc: int, liczbaNorek: int, liczbaKotow: int)
-    + getSzerokosc(): int
-    + getWysokosc(): int
-    + getNorki(): List<Norka>
-    + getMyszy(): List<Mysz>
-    + getSery(): List<Ser>
-    + getKoty(): List<Kot>
-    + getLiczbaZywychMyszy(): int
-    - inicjalizujNorki(liczbaNorek: int): void
-    - inicjalizujKoty(liczbaKotow: int): void
-    - inicjalizujSery(liczbaSerow: int): void
-    - dodajLosowyObiekt(obiekt: ObiektPlanszy, lists: List<ObiektPlanszy>...): void
-    - dodajLosowaMysz(norka: Norka): boolean
-    - stworzLosowySer(): Ser
-    + symulujKrok(): void
-    + wyswietlPlansze(): void
+    -szerokosc: int
+    -wysokosc: int
+    -norki: List<Norka>
+    -myszy: List<Mysz>
+    -sery: List<Ser>
+    -koty: List<Kot>
+    -liczbaZywychMyszy: int
+    -poczatkowaLiczbaKotow: int
+    -krokSymulacji: int
+    -random: Random
+    +getSzerokosc(): int
+    +getWysokosc(): int
+    +getNorki(): List<Norka>
+    +getMyszy(): List<Mysz>
+    +getSery(): List<Ser>
+    +getKoty(): List<Kot>
+    +getLiczbaZywychMyszy(): int
+    +symulujKrok(): void
+    +wyswietlPlansze(): void
   }
 
-  abstract class ObiektPlanszy {
-    # x: int
-    # y: int
-    + ObiektPlanszy(szerokoscPlanszy: int, wysokoscPlanszy: int)
-    + getX(): int
-    + getY(): int
-    + setX(x: int): void
-    + setY(y: int): void
-    + abstract wyswietl(): void
+  class Symulacja {
+    -CZAS_MIEDZY_KROKAMI: int
+    +main(args: String[]): void
   }
-
-  class Norka extends ObiektPlanszy {
-    + Norka(szerokoscPlanszy: int, wysokoscPlanszy: int)
-    + wyswietl(): void
-  }
-
-  class Ser extends ObiektPlanszy {
-    + Ser(szerokoscPlanszy: int, wysokoscPlanszy: int)
-    + wyswietl(): void
-  }
-
-  abstract class Zwierze extends ObiektPlanszy {
-    # energia: int
-    + Zwierze(szerokoscPlanszy: int, wysokoscPlanszy: int)
-    + getEnergia(): int
-    + setEnergia(energia: int): void
-    + abstract poruszajSie(szerokoscPlanszy: int, wysokoscPlanszy: int): void
-    + abstract czyZywy(): boolean
-  }
-
-  class Kot extends Zwierze {
-    - maxEnergia: int
-    + Kot(szerokoscPlanszy: int, wysokoscPlanszy: int)
-    + poruszajSie(szerokoscPlanszy: int, wysokoscPlanszy: int): void
-    + czyZywy(): boolean
-    + zjedzMysz(): void
-    + wyswietl(): void
-  }
-
-  class Mysz extends Zwierze {
-    - aktywna: boolean
-    + Mysz(szerokoscPlanszy: int, wysokoscPlanszy: int)
-    + Mysz(szerokoscPlanszy: int, wysokoscPlanszy: int, x: int, y: int)
-    + czyAktywna(): boolean
-    + ustawAktywna(aktywna: boolean): void
-    + poruszajSie(szerokoscPlanszy: int, wysokoscPlanszy: int): void
-    + czyZywy(): boolean
-    + zjedzSer(): void
-    + czyNieaktywna(): boolean
-    + wyswietl(): void
-  }
-
-  Plansza --* Norka
-  Plansza --* Mysz
-  Plansza --* Ser
-  Plansza --* Kot
-  Zwierze <|-- Kot
-  Zwierze <|-- Mysz
 }
+
+package "org.example.objects" {
+  abstract class ObiektPlanszy {
+    #x: int
+    #y: int
+    +ObiektPlanszy(szerokosc: int, wysokosc: int)
+    +getX(): int
+    +getY(): int
+    +setX(x: int): void
+    +setY(y: int): void
+    +wyswietl(): void {abstract}
+  }
+
+  class Norka {
+    +Norka(szerokosc: int, wysokosc: int)
+    +wyswietl(): void
+  }
+
+  class Ser {
+    +Ser(szerokosc: int, wysokosc: int)
+    +wyswietl(): void
+  }
+}
+
+package "org.example.objects.zwierzeta" {
+  abstract class Zwierze {
+    #energia: int
+    +Zwierze(szerokosc: int, wysokosc: int)
+    +getEnergia(): int
+    +setEnergia(energia: int): void
+    +poruszajSie(szerokosc: int, wysokosc: int): void {abstract}
+    +czyZywy(): boolean {abstract}
+    +wyswietl(): void {abstract}
+  }
+
+  class Kot {
+    -maxEnergia: int
+    +Kot(szerokosc: int, wysokosc: int)
+    +poruszajSie(szerokosc: int, wysokosc: int): void
+    +zjedzMysz(): void
+    +czyZywy(): boolean
+    +wyswietl(): void
+  }
+
+  class Mysz {
+    -aktywna: boolean
+    +Mysz(szerokosc: int, wysokosc: int)
+    +Mysz(szerokosc: int, wysokosc: int, x: int, y: int)
+    +czyAktywna(): boolean
+    +ustawAktywna(aktywna: boolean): void
+    +poruszajSie(szerokosc: int, wysokosc: int): void
+    +czyZywy(): boolean
+    +zjedzSer(): void
+    +czyNieaktywna(): boolean
+    +wyswietl(): void
+  }
+}
+
+' Relationships
+ObiektPlanszy <|-- Norka
+ObiektPlanszy <|-- Ser
+ObiektPlanszy <|-- Zwierze
+Zwierze <|-- Kot
+Zwierze <|-- Mysz
+
+Plansza "1" *-- "0..*" Norka
+Plansza "1" *-- "0..*" Mysz
+Plansza "1" *-- "0..*" Ser
+Plansza "1" *-- "0..*" Kot
+
+Symulacja --> Plansza : creates/uses
+
 @enduml

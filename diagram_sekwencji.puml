@@ -1,25 +1,28 @@
 @startuml
-actor "Symulacja" as Sim
-object kot1: Kot
-object planszaGlowna: Plansza
-object mysz1: Mysz
 
-Sim -> kot1 : poruszajSie(10, 10)
-kot1 -> kot1 : obliczNowaPozycje()
-kot1 -> planszaGlowna : czyPoleZajetePrzezNorke(5, 5)
-planszaGlowna --> kot1 : false
-kot1 -> kot1 : aktualizujPozycje(5, 5)
-Sim -> planszaGlowna : sprawdzKolizje()
-planszaGlowna -> kot1 : getX()
-planszaGlowna -> kot1 : getY()
-planszaGlowna -> mysz1 : getX()
-planszaGlowna -> mysz1 : getY()
-planszaGlowna -> mysz1 : czyAktywna()
-alt Pozycja kota == pozycja myszy && mysz aktywna && kot żywy
-  planszaGlowna -> kot1 : zjedzMysz()
-  kot1 -> kot1 : energia++
-  planszaGlowna -> mysz1 : // Oznacz jako zjedzoną/usuń z listy
-  planszaGlowna -> planszaGlowna : liczbaZywychMyszy--
+actor User
+participant Symulacja
+participant Plansza
+participant Mysz
+participant Kot
+participant Ser
+
+User -> Symulacja: Start simulation with params
+Symulacja -> Plansza: Create(szerokosc, wysokosc, myszy, koty)
+Plansza -> Norka: Create norek
+Plansza -> Mysz: Create myszy
+Plansza -> Kot: Create kotów
+Plansza -> Ser: Create serów
+
+loop while myszy alive and koty alive
+  Symulacja -> Plansza: symulujKrok()
+  Plansza -> Mysz: poruszajSie()
+  Plansza -> Kot: poruszajSie()
+  Plansza -> Kot: zjedzMysz() if same position
+  Plansza -> Mysz: zjedzSer() if same position
+  Symulacja -> Plansza: wyswietlPlansze()
 end
+
+Symulacja -> User: Simulation results
 
 @enduml

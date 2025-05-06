@@ -1,59 +1,61 @@
 @startuml
-object planszaGlowna{
+
+object plansza {
   szerokosc = 10
   wysokosc = 10
-  liczbaNorek = 3
-  liczbaMyszy = 2
-  liczbaSerow = 2
-  liczbaKotow = 1
-  krokSymulacji = 5
+  norki = [norka1, norka2]
+  myszy = [mysz1, mysz2]
+  sery = [ser1, ser2]
+  koty = [kot1]
+  liczbaZywychMyszy = 2
 }
 
-object norka1{
+object norka1 {
+  x = 2
+  y = 3
+}
+
+object norka2 {
+  x = 5
+  y = 7
+}
+
+object mysz1 {
+  x = 3
+  y = 4
+  aktywna = true
+  energia = 3
+}
+
+object mysz2 {
+  x = 5
+  y = 7
+  aktywna = false
+  energia = 5
+}
+
+object ser1 {
   x = 1
   y = 1
 }
 
-object norka2{
+object ser2 {
   x = 8
-  y = 3
+  y = 8
 }
 
-
-object mysz1{
-  x = 5
-  y = 5
-  energia = 6
-  aktywna = true
-}
-
-object mysz2{
-  x = 2
-  y = 6
-  energia = 4
-  aktywna = true
-}
-
-object kot1{
-  x = 5
+object kot1 {
+  x = 4
   y = 4
-  energia = 18
+  energia = 20
 }
 
-object ser1{
-  x = 6
-  y = 5
-}
-object ser2{
-  x = 3
-  y = 5
-}
+plansza --> norka1
+plansza --> norka2
+plansza --> mysz1
+plansza --> mysz2
+plansza --> ser1
+plansza --> ser2
+plansza --> kot1
 
-planszaGlowna --* norka1
-planszaGlowna --* norka2
-planszaGlowna --* mysz1
-planszaGlowna --* mysz2
-planszaGlowna --* kot1
-planszaGlowna --* ser1
-planszaGlowna --* ser2
 @enduml

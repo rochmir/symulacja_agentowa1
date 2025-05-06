@@ -1,0 +1,15 @@
+@startuml
+
+[*] --> Zywy : nowy kot
+Zywy --> Zywy : poruszajSie()\n(energia--)
+Zywy --> Zywy : zjedzMysz()\n(energia=max)
+Zywy --> [*] : energia <= 0
+
+@enduml@startuml
+
+       [*] --> Zywy : nowy kot
+       Zywy --> Zywy : poruszajSie()\n(energia--)
+       Zywy --> Zywy : zjedzMysz()\n(energia=max)
+       Zywy --> [*] : energia <= 0
+
+       @enduml
