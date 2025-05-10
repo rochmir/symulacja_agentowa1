@@ -1,10 +1,8 @@
 @startuml
-
-[*] --> Nieaktywna
-Nieaktywna --> Aktywna : poruszajSie()
-Nieaktywna --> [*] : energia <= 0
-Aktywna --> [*] : kot na tym samym polu
+[*] --> Nieaktywna : nowa mysz\n(energia = MAX_ENERGIA)
+Nieaktywna --> Aktywna : ustawAktywna(true)
+Aktywna --> Aktywna : poruszajSie()\n(energia--)
+Aktywna --> Aktywna : zjedzSer()\n(energia = MAX_ENERGIA)
 Aktywna --> [*] : energia <= 0
-Aktywna --> Aktywna : zjedzSer()\n(energia += 10)
-
+Aktywna --> [*] : zjedzenie przez kota
 @enduml

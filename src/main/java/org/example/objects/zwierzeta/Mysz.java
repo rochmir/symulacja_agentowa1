@@ -1,28 +1,24 @@
 package org.example.objects.zwierzeta;
 
 public class Mysz extends Zwierze {
-    private boolean aktywna = false; // Domyślnie mysz nie jest aktywna
+    private static final int MAX_ENERGIA = 10;
+    private boolean aktywna = false;
 
     public Mysz(int szerokoscPlanszy, int wysokoscPlanszy) {
         super(szerokoscPlanszy, wysokoscPlanszy);
-        this.energia = 5; // Początkowa energia myszy
+        this.energia = MAX_ENERGIA;
     }
 
     public Mysz(int szerokoscPlanszy, int wysokoscPlanszy, int x, int y) {
         super(szerokoscPlanszy, wysokoscPlanszy);
         this.x = x;
         this.y = y;
-        this.aktywna = true; // Mysz stworzona poza norką jest aktywna
-        this.energia = 5; // Początkowa energia myszy
+        this.energia = MAX_ENERGIA;
+        this.aktywna = true;
     }
 
-    public boolean czyAktywna() {
-        return aktywna;
-    }
-
-    public void ustawAktywna(boolean aktywna) {
-        this.aktywna = aktywna;
-    }
+    public boolean czyAktywna() { return aktywna; }
+    public void ustawAktywna(boolean aktywna) { this.aktywna = aktywna; }
 
     @Override
     public void poruszajSie(int szerokoscPlanszy, int wysokoscPlanszy) {
@@ -30,11 +26,10 @@ public class Mysz extends Zwierze {
         int dy = (int) (Math.random() * 3) - 1;
         int noweX = x + dx;
         int noweY = y + dy;
-
         if (noweX >= 0 && noweX < szerokoscPlanszy && noweY >= 0 && noweY < wysokoscPlanszy) {
             this.x = noweX;
             this.y = noweY;
-            this.aktywna = true; // Mysz staje się aktywna po pierwszym ruchu
+            this.aktywna = true;
         }
         energia--;
     }
@@ -45,7 +40,7 @@ public class Mysz extends Zwierze {
     }
 
     public void zjedzSer() {
-        this.energia += 10;
+        this.energia = MAX_ENERGIA;
     }
 
     public boolean czyNieaktywna() {

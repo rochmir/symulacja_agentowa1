@@ -1,61 +1,78 @@
 @startuml
 
 object plansza {
-  szerokosc = 10
-  wysokosc = 10
-  norki = [norka1, norka2]
-  myszy = [mysz1, mysz2]
-  sery = [ser1, ser2]
-  koty = [kot1]
-  liczbaZywychMyszy = 2
+    szerokosc = 10
+    wysokosc = 10
+    liczbaZywychMyszy = 5
+    koty = new ArrayList<>()
+    myszy = new ArrayList<>()
+    norki = new ArrayList<>()
+    sery = new ArrayList<>()
+    random = new Random()
 }
 
 object norka1 {
-  x = 2
-  y = 3
+    x = 2
+    y = 3
 }
 
 object norka2 {
-  x = 5
-  y = 7
+    x = 8
+    y = 7
 }
 
 object mysz1 {
-  x = 3
-  y = 4
-  aktywna = true
-  energia = 3
+    x = 4
+    y = 6
+    aktywna = true
+    energia = 10
 }
 
 object mysz2 {
-  x = 5
-  y = 7
-  aktywna = false
-  energia = 5
+    x = 1
+    y = 8
+    aktywna = true
+    energia = 8
+}
+
+object mysz3 {
+    x = 6
+    y = 2
+    aktywna = true
+    energia = 10
 }
 
 object ser1 {
-  x = 1
-  y = 1
+    x = 5
+    y = 3
 }
 
 object ser2 {
-  x = 8
-  y = 8
+    x = 7
+    y = 4
 }
 
 object kot1 {
-  x = 4
-  y = 4
-  energia = 20
+    x = 2
+    y = 5
+    energia = 20
 }
 
-plansza --> norka1
-plansza --> norka2
-plansza --> mysz1
-plansza --> mysz2
-plansza --> ser1
-plansza --> ser2
-plansza --> kot1
+object kot2 {
+    x = 6
+    y = 8
+    energia = 15
+}
+
+' Kolekcje
+plansza "1" *-- "norki" norka1
+plansza "1" *-- "norki" norka2
+plansza "1" *-- "myszy" mysz1
+plansza "1" *-- "myszy" mysz2
+plansza "1" *-- "myszy" mysz3
+plansza "1" *-- "sery" ser1
+plansza "1" *-- "sery" ser2
+plansza "1" *-- "koty" kot1
+plansza "1" *-- "koty" kot2
 
 @enduml

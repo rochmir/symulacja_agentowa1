@@ -6,291 +6,172 @@ import org.example.objects.Ser;
 import org.example.objects.zwierzeta.Kot;
 import org.example.objects.zwierzeta.Mysz;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Plansza {
     private final int szerokosc;
     private final int wysokosc;
-    private final List<Norka> norki;
-    private final List<Mysz> myszy;
-    private final List<Ser> sery;
-    private final List<Kot> koty;
-    private int liczbaZywychMyszy; // Liczba żywych myszy (w norach i na planszy)
-    private final int poczatkowaLiczbaKotow;
-    private int krokSymulacji = 0;
+    private final List<Norka> norki = new ArrayList<>();
+    private final List<Mysz> myszy = new ArrayList<>();
+    private final List<Ser> sery = new ArrayList<>();
+    private final List<Kot> koty = new ArrayList<>();
+    private int liczbaZywychMyszy;
     private final Random random = new Random();
 
-    public Plansza(int szerokosc, int wysokosc, int liczbaNorek, int liczbaKotow) {
+    public Plansza(int szerokosc, int wysokosc, int liczbaNorek, int liczbaKotow, int liczbaSerow) {
         this.szerokosc = szerokosc;
         this.wysokosc = wysokosc;
-        this.norki = new ArrayList<>();
-        this.myszy = new ArrayList<>();
-        this.sery = new ArrayList<>();
-        this.koty = new ArrayList<>();
         inicjalizujNorki(liczbaNorek);
-        this.liczbaZywychMyszy = liczbaNorek; // Początkowo tyle żywych myszy, ile norek
-        inicjalizujSery(liczbaNorek); // Początkowa liczba serów
-        this.poczatkowaLiczbaKotow = liczbaKotow;
+        inicjalizujSery(liczbaSerow);
         inicjalizujKoty(liczbaKotow);
-    }
-
-    public int getSzerokosc() {
-        return szerokosc;
-    }
-
-    public int getWysokosc() {
-        return wysokosc;
-    }
-
-    public List<Norka> getNorki() {
-        return norki;
-    }
-
-    public List<Mysz> getMyszy() {
-        return myszy;
-    }
-
-    public List<Ser> getSery() {
-        return sery;
-    }
-
-    public List<Kot> getKoty() {
-        return koty;
-    }
-
-    public int getLiczbaZywychMyszy() {
-        return liczbaZywychMyszy;
+        this.liczbaZywychMyszy = liczbaNorek;
     }
 
     private void inicjalizujNorki(int liczbaNorek) {
         for (int i = 0; i < liczbaNorek; i++) {
-            dodajLosowyObiekt(new Norka(szerokosc, wysokosc), norki, null, null, null);
-        }
-    }
-
-    private void inicjalizujKoty(int liczbaKotow) {
-        for (int i = 0; i < liczbaKotow; i++) {
-            dodajLosowyObiekt(new Kot(szerokosc, wysokosc), norki, myszy, sery, koty);
+            Norka norka;
+            do {
+                norka = new Norka(szerokosc, wysokosc);
+            } while (czyPoleZajete(norka.getX(), norka.getY()));
+            norki.add(norka);
         }
     }
 
     private void inicjalizujSery(int liczbaSerow) {
         for (int i = 0; i < liczbaSerow; i++) {
-            dodajLosowyObiekt(new Ser(szerokosc, wysokosc), norki, myszy, sery, koty);
+            Ser ser;
+            do {
+                ser = new Ser(szerokosc, wysokosc);
+            } while (czyPoleZajete(ser.getX(), ser.getY()));
+            sery.add(ser);
         }
     }
 
-    private void dodajLosowyObiekt(ObiektPlanszy obiekt, List<? extends ObiektPlanszy>... lists) {
-        int x, y;
-        boolean zajete;
-        do {
-            x = random.nextInt(szerokosc);
-            y = random.nextInt(wysokosc);
-            obiekt.setX(x);
-            obiekt.setY(y);
-            zajete = false;
-            for (List<? extends ObiektPlanszy> list : lists) {
-                if (list != null) {
-                    for (ObiektPlanszy element : list) {
-                        if (element.getX() == x && element.getY() == y) {
-                            zajete = true;
-                            break;
-                        }
-                    }
-                }
-                if (zajete) break;
-            }
-            if (obiekt instanceof Kot && norki != null) {
-                for (Norka norka : norki) {
-                    if (norka.getX() == x && norka.getY() == y) {
-                        zajete = true;
-                        break;
-                    }
-                }
-            }
-        } while (zajete);
-
-        if (obiekt instanceof Norka) {
-            norki.add((Norka) obiekt);
-        } else if (obiekt instanceof Ser) {
-            sery.add((Ser) obiekt);
-        } else if (obiekt instanceof Mysz) {
-            myszy.add((Mysz) obiekt);
-        } else if (obiekt instanceof Kot) {
-            koty.add((Kot) obiekt);
+    private void inicjalizujKoty(int liczbaKotow) {
+        for (int i = 0; i < liczbaKotow; i++) {
+            Kot kot;
+            do {
+                kot = new Kot(szerokosc, wysokosc);
+            } while (czyPoleZajete(kot.getX(), kot.getY()));
+            koty.add(kot);
         }
     }
 
-    private boolean dodajLosowaMysz(Norka norka) {
-        int norkaX = norka.getX();
-        int norkaY = norka.getY();
-        int prob = 0;
-        boolean udaloSie = false;
-        while (prob < 10 && !udaloSie) {
-            int dx = random.nextInt(3) - 1;
-            int dy = random.nextInt(3) - 1;
-            if (dx == 0 && dy == 0) continue;
-
-            int noweX = norkaX + dx;
-            int noweY = norkaY + dy;
-
-            if (noweX >= 0 && noweX < szerokosc && noweY >= 0 && noweY < wysokosc) {
-                boolean zajete = false;
-                for (Norka n : norki) {
-                    if (n.getX() == noweX && n.getY() == noweY) zajete = true;
-                }
-                for (Mysz m : myszy) {
-                    if (m.getX() == noweX && m.getY() == noweY) zajete = true;
-                }
-                for (Ser s : sery) {
-                    if (s.getX() == noweX && s.getY() == noweY) zajete = true;
-                }
-                for (Kot c : koty) {
-                    if (c.getX() == noweX && c.getY() == noweY) zajete = true;
-                }
-                if (!zajete) {
-                    myszy.add(new Mysz(szerokosc, wysokosc, noweX, noweY));
-                    udaloSie = true;
-                }
-            }
-            prob++;
-        }
-        return udaloSie;
-    }
-
-    private Ser stworzLosowySer() {
-        Ser nowySer;
-        boolean zajete;
-        do {
-            nowySer = new Ser(szerokosc, wysokosc);
-            zajete = false;
-            for (Norka n : norki) {
-                if (n.getX() == nowySer.getX() && n.getY() == nowySer.getY()) zajete = true;
-            }
-            for (Mysz m : myszy) {
-                if (m.getX() == nowySer.getX() && m.getY() == nowySer.getY()) zajete = true;
-            }
-            for (Ser s : sery) {
-                if (s.getX() == nowySer.getX() && s.getY() == nowySer.getY()) zajete = true;
-            }
-            for (Kot c : koty) {
-                if (c.getX() == nowySer.getX() && c.getY() == nowySer.getY()) zajete = true;
-            }
-        } while (zajete);
-        return nowySer;
+    private boolean czyPoleZajete(int x, int y) {
+        for (ObiektPlanszy o : norki) if (o.getX() == x && o.getY() == y) return true;
+        for (ObiektPlanszy o : sery) if (o.getX() == x && o.getY() == y) return true;
+        for (ObiektPlanszy o : myszy) if (o.getX() == x && o.getY() == y) return true;
+        for (ObiektPlanszy o : koty) if (o.getX() == x && o.getY() == y) return true;
+        return false;
     }
 
     public void symulujKrok() {
-        krokSymulacji++;
-        boolean nowaMyszDodanaWKroku = false;
-
-        if (krokSymulacji > 1) {
-            if (!nowaMyszDodanaWKroku && random.nextDouble() < 0.5 && !norki.isEmpty() && liczbaZywychMyszy > 0 && myszy.size() < norki.size()) {
-                Norka losowaNorka = norki.get(random.nextInt(norki.size()));
-                if (dodajLosowaMysz(losowaNorka)) {
+        // Dodawanie myszy z prawdopodobieństwem 0.5 przy każdej norki
+        for (Norka norka : norki) {
+            if (random.nextDouble() < 0.5 && liczbaZywychMyszy > 0) {
+                int[] dx = {-1, 0, 1, 0, -1, 1, -1, 1};
+                int[] dy = {0, -1, 0, 1, -1, -1, 1, 1};
+                List<int[]> wolne = new ArrayList<>();
+                for (int i = 0; i < dx.length; i++) {
+                    int nx = norka.getX() + dx[i];
+                    int ny = norka.getY() + dy[i];
+                    if (nx >= 0 && nx < szerokosc && ny >= 0 && ny < wysokosc && !czyPoleZajete(nx, ny)) {
+                        wolne.add(new int[]{nx, ny});
+                    }
+                }
+                if (!wolne.isEmpty()) {
+                    int[] pos = wolne.get(random.nextInt(wolne.size()));
+                    myszy.add(new Mysz(szerokosc, wysokosc, pos[0], pos[1]));
                     liczbaZywychMyszy--;
-                    nowaMyszDodanaWKroku = true;
                 }
             }
-
-            for (Mysz mysz : myszy) {
-                mysz.poruszajSie(szerokosc, wysokosc);
-            }
-
-            for (Kot kot : koty) {
-                int stareX = kot.getX();
-                int stareY = kot.getY();
-                kot.poruszajSie(szerokosc, wysokosc);
-                for (Norka norka : norki) {
-                    if (kot.getX() == norka.getX() && kot.getY() == norka.getY()) {
-                        kot.setX(stareX);
-                        kot.setY(stareY);
-                        break;
-                    }
-                }
-            }
-
-            List<Mysz> zjedzoneMyszy = new ArrayList<>();
-            for (Kot kot : koty) {
-                for (Mysz mysz : myszy) {
-                    if (kot.getX() == mysz.getX() && kot.getY() == mysz.getY() && mysz.czyAktywna() && kot.czyZywy()) {
-                        kot.zjedzMysz();
-                        zjedzoneMyszy.add(mysz);
-                        liczbaZywychMyszy--;
-                        break;
-                    }
-                }
-            }
-            myszy.removeAll(zjedzoneMyszy);
-
-            List<Ser> zjedzonySer = new ArrayList<>();
-            for (Mysz myszyNaPlanszy : myszy) {
-                if (myszyNaPlanszy.czyAktywna()) {
-                    for (Ser ser : sery) {
-                        if (myszyNaPlanszy.getX() == ser.getX() && myszyNaPlanszy.getY() == ser.getY()) {
-                            myszyNaPlanszy.zjedzSer();
-                            zjedzonySer.add(ser);
-                            break;
-                        }
-                    }
-                }
-            }
-            sery.removeAll(zjedzonySer);
-            for (int i = 0; i < zjedzonySer.size(); i++) {
-                sery.add(stworzLosowySer());
-            }
-
-            myszy.removeIf(Mysz::czyNieaktywna);
-            koty.removeIf(kot -> !kot.czyZywy());
         }
+
+        // Ruch myszy
+        for (Mysz mysz : new ArrayList<>(myszy)) {
+            mysz.poruszajSie(szerokosc, wysokosc);
+        }
+
+        // Ruch kotów (nie mogą wejść na norkę)
+        for (Kot kot : new ArrayList<>(koty)) {
+            int stareX = kot.getX();
+            int stareY = kot.getY();
+            kot.poruszajSie(szerokosc, wysokosc);
+            for (Norka norka : norki) {
+                if (kot.getX() == norka.getX() && kot.getY() == norka.getY()) {
+                    kot.setX(stareX);
+                    kot.setY(stareY);
+                }
+            }
+        }
+
+        // Zjadanie myszy przez koty
+        List<Mysz> zjedzoneMyszy = new ArrayList<>();
+        for (Kot kot : koty) {
+            for (Mysz mysz : myszy) {
+                if (kot.getX() == mysz.getX() && kot.getY() == mysz.getY() && mysz.czyAktywna() && kot.czyZywy()) {
+                    kot.zjedzMysz();
+                    zjedzoneMyszy.add(mysz);
+                }
+            }
+        }
+        myszy.removeAll(zjedzoneMyszy);
+
+        // Zjadanie sera przez myszy i koty
+        List<Ser> zjedzonySer = new ArrayList<>();
+        for (Mysz mysz : myszy) {
+            if (mysz.czyAktywna()) {
+                for (Ser ser : sery) {
+                    if (mysz.getX() == ser.getX() && mysz.getY() == ser.getY()) {
+                        mysz.zjedzSer();
+                        zjedzonySer.add(ser);
+                        break;
+                    }
+                }
+            }
+        }
+        for (Kot kot : koty) {
+            for (Ser ser : sery) {
+                if (kot.getX() == ser.getX() && kot.getY() == ser.getY()) {
+                    zjedzonySer.add(ser);
+                }
+            }
+        }
+        sery.removeAll(zjedzonySer);
+        for (int i = 0; i < zjedzonySer.size(); i++) {
+            Ser nowySer;
+            do {
+                nowySer = new Ser(szerokosc, wysokosc);
+            } while (czyPoleZajete(nowySer.getX(), nowySer.getY()));
+            sery.add(nowySer);
+        }
+
+        // Usuwanie martwych myszy i kotów
+        myszy.removeIf(m -> !m.czyZywy());
+        koty.removeIf(k -> !k.czyZywy());
     }
 
     public void wyswietlPlansze() {
         char[][] mapa = new char[wysokosc][szerokosc];
-        for (int i = 0; i < wysokosc; i++) {
-            for (int j = 0; j < szerokosc; j++) {
+        for (int i = 0; i < wysokosc; i++)
+            for (int j = 0; j < szerokosc; j++)
                 mapa[i][j] = '.';
-            }
-        }
-
-        for (Norka norka : norki) {
-            if (norka.getY() < wysokosc && norka.getX() < szerokosc) {
-                mapa[norka.getY()][norka.getX()] = 'N';
-            }
-        }
-
-        for (Mysz mysz : myszy) {
-            if (mysz.getY() < wysokosc && mysz.getX() < szerokosc && mysz.czyAktywna()) {
-                mapa[mysz.getY()][mysz.getX()] = 'M';
-            }
-        }
-
-        for (Ser ser : sery) {
-            if (ser.getY() < wysokosc && ser.getX() < szerokosc) {
-                mapa[ser.getY()][ser.getX()] = 'S';
-            }
-        }
-
-        for (Kot kot : koty) {
-            if (kot.getY() < wysokosc && kot.getX() < szerokosc && kot.czyZywy()) {
-                mapa[kot.getY()][kot.getX()] = 'K';
-            }
-        }
-
+        for (Norka n : norki) mapa[n.getY()][n.getX()] = 'N';
+        for (Ser s : sery) mapa[s.getY()][s.getX()] = 'S';
+        for (Mysz m : myszy) if (m.czyAktywna()) mapa[m.getY()][m.getX()] = 'M';
+        for (Kot k : koty) if (k.czyZywy()) mapa[k.getY()][k.getX()] = 'K';
         for (int i = 0; i < wysokosc; i++) {
-            for (int j = 0; j < szerokosc; j++) {
+            for (int j = 0; j < szerokosc; j++)
                 System.out.print(mapa[i][j] + " ");
-            }
             System.out.println();
         }
-        System.out.println("Krok symulacji: " + krokSymulacji);
-        System.out.println("Liczba norek: " + norki.size());
-        System.out.println("Liczba myszy na planszy: " + myszy.size());
-        System.out.println("Liczba żywych myszy: " + liczbaZywychMyszy);
-        System.out.println("Liczba sera: " + sery.size());
-        System.out.println("Liczba kotów: " + koty.size());
-        System.out.println("--------------------");
+        System.out.println("Myszy na planszy: " + myszy.size());
+        System.out.println("Myszy żywe (na planszy + w norce): " + (myszy.size() + liczbaZywychMyszy));
+        System.out.println("Koty: " + koty.size());
+        System.out.println("Sery: " + sery.size());
+        System.out.println("Norki: " + norki.size());
     }
+
+    public List<Kot> getKoty() { return koty; }
+    public int getLiczbaZywychMyszy() { return liczbaZywychMyszy + myszy.size(); }
 }

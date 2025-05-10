@@ -9,14 +9,12 @@ package "org.example" {
     -sery: List<Ser>
     -koty: List<Kot>
     -liczbaZywychMyszy: int
-    -poczatkowaLiczbaKotow: int
-    -krokSymulacji: int
     -random: Random
-    +getSzerokosc(): int
-    +getWysokosc(): int
-    +getNorki(): List<Norka>
-    +getMyszy(): List<Mysz>
-    +getSery(): List<Ser>
+    +Plansza(szerokosc: int, wysokosc: int, liczbaNorek: int, liczbaKotow: int, liczbaSerow: int)
+    -inicjalizujNorki(liczbaNorek: int): void
+    -inicjalizujSery(liczbaSerow: int): void
+    -inicjalizujKoty(liczbaKotow: int): void
+    -czyPoleZajete(x: int, y: int): boolean
     +getKoty(): List<Kot>
     +getLiczbaZywychMyszy(): int
     +symulujKrok(): void
@@ -24,8 +22,10 @@ package "org.example" {
   }
 
   class Symulacja {
-    -CZAS_MIEDZY_KROKAMI: int
-    +main(args: String[]): void
+    +{static} main(args: String[]): void
+    -{static} wczytajLiczbe(scanner: Scanner, komunikat: String, min: int, max: int): int
+    -{static} uruchomSymulacje(plansza: Plansza): void
+    -{static} wyswietlKomunikatZakonczenia(plansza: Plansza): void
   }
 }
 
@@ -33,21 +33,21 @@ package "org.example.objects" {
   abstract class ObiektPlanszy {
     #x: int
     #y: int
-    +ObiektPlanszy(szerokosc: int, wysokosc: int)
+    +ObiektPlanszy(szerokoscPlanszy: int, wysokoscPlanszy: int)
     +getX(): int
     +getY(): int
     +setX(x: int): void
     +setY(y: int): void
-    +wyswietl(): void {abstract}
+    +{abstract} wyswietl(): void
   }
 
   class Norka {
-    +Norka(szerokosc: int, wysokosc: int)
+    +Norka(szerokoscPlanszy: int, wysokoscPlanszy: int)
     +wyswietl(): void
   }
 
   class Ser {
-    +Ser(szerokosc: int, wysokosc: int)
+    +Ser(szerokoscPlanszy: int, wysokoscPlanszy: int)
     +wyswietl(): void
   }
 }
@@ -55,30 +55,30 @@ package "org.example.objects" {
 package "org.example.objects.zwierzeta" {
   abstract class Zwierze {
     #energia: int
-    +Zwierze(szerokosc: int, wysokosc: int)
+    +Zwierze(szerokoscPlanszy: int, wysokoscPlanszy: int)
     +getEnergia(): int
     +setEnergia(energia: int): void
-    +poruszajSie(szerokosc: int, wysokosc: int): void {abstract}
-    +czyZywy(): boolean {abstract}
-    +wyswietl(): void {abstract}
+    +{abstract} poruszajSie(szerokoscPlanszy: int, wysokoscPlanszy: int): void
+    +{abstract} czyZywy(): boolean
   }
 
   class Kot {
-    -maxEnergia: int
-    +Kot(szerokosc: int, wysokosc: int)
-    +poruszajSie(szerokosc: int, wysokosc: int): void
+    -{static} MAX_ENERGIA: int = 20
+    +Kot(szerokoscPlanszy: int, wysokoscPlanszy: int)
+    +poruszajSie(szerokoscPlanszy: int, wysokoscPlanszy: int): void
     +zjedzMysz(): void
     +czyZywy(): boolean
     +wyswietl(): void
   }
 
   class Mysz {
+    -{static} MAX_ENERGIA: int = 10
     -aktywna: boolean
-    +Mysz(szerokosc: int, wysokosc: int)
-    +Mysz(szerokosc: int, wysokosc: int, x: int, y: int)
+    +Mysz(szerokoscPlanszy: int, wysokoscPlanszy: int)
+    +Mysz(szerokoscPlanszy: int, wysokoscPlanszy: int, x: int, y: int)
     +czyAktywna(): boolean
     +ustawAktywna(aktywna: boolean): void
-    +poruszajSie(szerokosc: int, wysokosc: int): void
+    +poruszajSie(szerokoscPlanszy: int, wysokoscPlanszy: int): void
     +czyZywy(): boolean
     +zjedzSer(): void
     +czyNieaktywna(): boolean
@@ -86,18 +86,17 @@ package "org.example.objects.zwierzeta" {
   }
 }
 
-' Relationships
 ObiektPlanszy <|-- Norka
 ObiektPlanszy <|-- Ser
 ObiektPlanszy <|-- Zwierze
 Zwierze <|-- Kot
 Zwierze <|-- Mysz
 
-Plansza "1" *-- "0..*" Norka
-Plansza "1" *-- "0..*" Mysz
-Plansza "1" *-- "0..*" Ser
-Plansza "1" *-- "0..*" Kot
+Plansza "1" *-- "*" Norka
+Plansza "1" *-- "*" Mysz
+Plansza "1" *-- "*" Ser
+Plansza "1" *-- "*" Kot
 
-Symulacja --> Plansza : creates/uses
+Symulacja ..> Plansza: creates/uses
 
 @enduml

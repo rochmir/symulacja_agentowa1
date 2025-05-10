@@ -1,28 +1,33 @@
 @startuml
-
 actor User
 participant Symulacja
 participant Plansza
 participant Mysz
 participant Kot
 participant Ser
+participant Norka
 
-User -> Symulacja: Start simulation with params
-Symulacja -> Plansza: Create(szerokosc, wysokosc, myszy, koty)
-Plansza -> Norka: Create norek
-Plansza -> Mysz: Create myszy
-Plansza -> Kot: Create kotów
-Plansza -> Ser: Create serów
+User -> Symulacja: wczytajLiczbe()
+Symulacja -> Plansza: new Plansza(szerokosc, wysokosc, liczbaNorek, liczbaKotow, liczbaSera)
+Plansza -> Norka: inicjalizujNorki()
+Plansza -> Ser: inicjalizujSery()
+Plansza -> Kot: inicjalizujKoty()
 
-loop while myszy alive and koty alive
-  Symulacja -> Plansza: symulujKrok()
-  Plansza -> Mysz: poruszajSie()
-  Plansza -> Kot: poruszajSie()
-  Plansza -> Kot: zjedzMysz() if same position
-  Plansza -> Mysz: zjedzSer() if same position
-  Symulacja -> Plansza: wyswietlPlansze()
+loop while !koty.isEmpty() && liczbaZywychMyszy > 0
+    Symulacja -> Plansza: symulujKrok()
+    loop dla każdej norki
+        Plansza -> Mysz: new Mysz() [if random < 0.5]
+    end
+    loop dla każdej myszy
+        Plansza -> Mysz: poruszajSie()
+    end
+    loop dla każdego kota
+        Plansza -> Kot: poruszajSie()
+    end
+    Plansza -> Plansza: sprawdź kolizje i interakcje
+    Symulacja -> Plansza: wyswietlPlansze()
 end
 
-Symulacja -> User: Simulation results
+Symulacja -> User: wyświetl komunikat zakończenia
 
 @enduml
