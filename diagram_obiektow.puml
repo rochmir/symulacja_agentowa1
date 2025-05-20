@@ -3,11 +3,11 @@
 object plansza {
     szerokosc = 10
     wysokosc = 10
-    liczbaZywychMyszy = 5
-    koty = new ArrayList<>()
-    myszy = new ArrayList<>()
-    norki = new ArrayList<>()
-    sery = new ArrayList<>()
+    liczbaZywychMyszy = 3
+    koty = [kot1, kot2]
+    myszy = [mysz1, mysz2, mysz3]
+    norki = [norka1, norka2, norka3]
+    sery = [ser1, ser2, ser3]
     random = new Random()
 }
 
@@ -19,6 +19,10 @@ object norka1 {
 object norka2 {
     x = 8
     y = 7
+}
+object norka2 {
+    x = 9
+    y = 9
 }
 
 object mysz1 {
@@ -36,9 +40,9 @@ object mysz2 {
 }
 
 object mysz3 {
-    x = 6
-    y = 2
-    aktywna = true
+    x = 9
+    y = 9
+    aktywna = false
     energia = 10
 }
 
@@ -50,6 +54,11 @@ object ser1 {
 object ser2 {
     x = 7
     y = 4
+}
+
+object ser3 {
+    x = 3
+    y = 6
 }
 
 object kot1 {
@@ -64,15 +73,16 @@ object kot2 {
     energia = 15
 }
 
-' Kolekcje
-plansza "1" *-- "norki" norka1
-plansza "1" *-- "norki" norka2
-plansza "1" *-- "myszy" mysz1
-plansza "1" *-- "myszy" mysz2
-plansza "1" *-- "myszy" mysz3
-plansza "1" *-- "sery" ser1
-plansza "1" *-- "sery" ser2
-plansza "1" *-- "koty" kot1
-plansza "1" *-- "koty" kot2
+' Relacje kompozycji
+plansza *-- "norki" norka1
+plansza *-- "norki" norka2
+plansza *-- "myszy" mysz1
+plansza *-- "myszy" mysz2
+plansza *-- "myszy" mysz3
+plansza *-- "sery" ser1
+plansza *-- "sery" ser2
+plansza *-- "sery" ser3
+plansza *-- "koty" kot1
+plansza *-- "koty" kot2
 
 @enduml

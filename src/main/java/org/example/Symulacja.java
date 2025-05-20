@@ -29,11 +29,11 @@ public class Symulacja {
             System.out.println("Wystapil blad podczas tworzenia planszy: " + e.getMessage());
         }
     }
-
+//inicjowanie symulacji
     private static void uruchomSymulacje(Plansza plansza) {
         System.out.println("Rozpoczynam symulacje...");
         int krok = 0;
-        while (!plansza.getKoty().isEmpty() && plansza.getLiczbaZywychMyszy() > 0) {
+        while (!plansza.getKoty().isEmpty() && plansza.getLiczbaZywychMyszy() > 0) { //symulacja działą do czasu, aż któreś ze nie wymrze
             System.out.println("Krok: " + krok++);
             plansza.wyswietlPlansze();
             plansza.symulujKrok();
@@ -44,10 +44,12 @@ public class Symulacja {
                 break;
             }
         }
-        wyswietlKomunikatZakonczenia(plansza);
+        System.out.println("Krok: " + krok);
+        plansza.wyswietlPlansze();
+        wyswietlKomunikatZakonczenia(plansza,krok);
     }
 
-    private static int wczytajLiczbe(Scanner scanner, String komunikat, int min, int max) {
+    private static int wczytajLiczbe(Scanner scanner, String komunikat, int min, int max) { //sprawdzenie wprowadzonych danych
         int liczba;
         while (true) {
             System.out.print(komunikat);
@@ -70,13 +72,13 @@ public class Symulacja {
         return liczba;
     }
 
-    private static void wyswietlKomunikatZakonczenia(Plansza plansza) {
+    private static void wyswietlKomunikatZakonczenia(Plansza plansza, int krok) {//komunikat zakańczająca pomyślną symulację
         if (plansza.getKoty().isEmpty() && (plansza.getLiczbaZywychMyszy() != 0)) {
-            System.out.println("Symulacja zakonczona: wszystkie koty zniknely.");
+            System.out.println("Symulacja zakonczona: wszystkie koty zniknely po "+ krok + " krokach.");
         } else if (plansza.getLiczbaZywychMyszy() == 0 && !plansza.getKoty().isEmpty()) {
-            System.out.println("Symulacja zakonczona: wszystkie myszy zniknely.");
+            System.out.println("Symulacja zakonczona: wszystkie myszy zniknely po "+ krok + " krokach.");
         } else {
-            System.out.println("Symulacja zakonczona.");
+            System.out.println("Symulacja zakonczona po "+ krok + " krokach.");
         }
     }
 }

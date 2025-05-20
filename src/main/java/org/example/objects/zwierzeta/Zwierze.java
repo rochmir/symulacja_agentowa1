@@ -9,9 +9,6 @@ public abstract class Zwierze extends ObiektPlanszy {
         super(szerokoscPlanszy, wysokoscPlanszy);
     }
 
-    public int getEnergia() { return energia; }
-    public void setEnergia(int energia) { this.energia = energia; }
-
     public abstract void poruszajSie(int szerokoscPlanszy, int wysokoscPlanszy);
-    public abstract boolean czyZywy();
+    public abstract boolean czyZywy();//dodanie statusu życia
 }
