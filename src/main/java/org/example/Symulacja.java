@@ -31,23 +31,47 @@ public class Symulacja {
     }
 //inicjowanie symulacji
     private static void uruchomSymulacje(Plansza plansza) {
-        System.out.println("Rozpoczynam symulacje...");
-        int krok = 0;
-        while (!plansza.getKoty().isEmpty() && plansza.getLiczbaZywychMyszy() > 0) { //symulacja działą do czasu, aż któreś ze nie wymrze
-            System.out.println("Krok: " + krok++);
-            plansza.wyswietlPlansze();
-            plansza.symulujKrok();
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                System.out.println("Symulacja zostala przerwana.");
-                break;
-            }
-        }
+    System.out.println("Rozpoczynam symulacje...");
+    int krok = 0;
+    CSVWriter csvWriter = new CSVWriter();
+
+    while (!plansza.getKoty().isEmpty() && plansza.getLiczbaZywychMyszy() > 0) {
         System.out.println("Krok: " + krok);
         plansza.wyswietlPlansze();
-        wyswietlKomunikatZakonczenia(plansza,krok);
+
+        // Zapisz dane do pliku CSV
+        csvWriter.zapiszKrok(
+                krok,
+                plansza.getMyszy().size(),
+                plansza.getLiczbaZywychMyszy(),
+                plansza.getKoty().size(),
+                plansza.getSery().size()
+        );
+
+        plansza.symulujKrok();
+        krok++;
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            System.out.println("Symulacja zostala przerwana.");
+            break;
+        }
     }
+
+    // Zapisz ostatni krok
+    csvWriter.zapiszKrok(
+            krok,
+            plansza.getMyszy().size(),
+            plansza.getLiczbaZywychMyszy(),
+            plansza.getKoty().size(),
+            plansza.getSery().size()
+    );
+
+    csvWriter.zamknij();
+    System.out.println("Dane zapisano do pliku CSV.");
+    wyswietlKomunikatZakonczenia(plansza, krok);
+}
 
     private static int wczytajLiczbe(Scanner scanner, String komunikat, int min, int max) { //sprawdzenie wprowadzonych danych
         int liczba;

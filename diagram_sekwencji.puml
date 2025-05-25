@@ -1,6 +1,7 @@
 @startuml
 actor User
 participant Symulacja
+participant CSVWriter
 participant Plansza
 participant Mysz
 participant Kot
@@ -12,8 +13,10 @@ Symulacja -> Plansza: new Plansza(szerokosc, wysokosc, liczbaNorek, liczbaKotow,
 Plansza -> Norka: inicjalizujNorki()
 Plansza -> Ser: inicjalizujSery()
 Plansza -> Kot: inicjalizujKoty()
+Symulacja -> CSVWriter: new CSVWriter()
 
 loop while !koty.isEmpty() && liczbaZywychMyszy > 0
+    Symulacja -> CSVWriter: zapiszKrok(...)
     Symulacja -> Plansza: symulujKrok()
     loop dla każdej norki
         Plansza -> Mysz: new Mysz() [if random < 0.5]
@@ -28,6 +31,7 @@ loop while !koty.isEmpty() && liczbaZywychMyszy > 0
     Symulacja -> Plansza: wyswietlPlansze()
 end
 
+Symulacja -> CSVWriter: zamknij()
 Symulacja -> User: wyświetl komunikat zakończenia
 
 @enduml

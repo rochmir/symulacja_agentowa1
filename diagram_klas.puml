@@ -17,6 +17,8 @@ package "org.example" {
     -czyPoleZajete(x: int, y: int): boolean
     +getKoty(): List<Kot>
     +getLiczbaZywychMyszy(): int
+    +getMyszy(): List<Mysz>
+    +getSery(): List<Ser>
     +symulujKrok(): void
     +wyswietlPlansze(): void
   }
@@ -25,7 +27,15 @@ package "org.example" {
     +{static} main(args: String[]): void
     -{static} wczytajLiczbe(scanner: Scanner, komunikat: String, min: int, max: int): int
     -{static} uruchomSymulacje(plansza: Plansza): void
-    -{static} wyswietlKomunikatZakonczenia(plansza: Plansza): void
+    -{static} wyswietlKomunikatZakonczenia(plansza: Plansza, krok: int): void
+  }
+
+  class CSVWriter {
+    -nazwaPliku: String
+    -writer: FileWriter
+    +CSVWriter()
+    +zapiszKrok(krok: int, myszyNaPlanszy: int, myszyZywe: int, koty: int, sery: int): void
+    +zamknij(): void
   }
 }
 

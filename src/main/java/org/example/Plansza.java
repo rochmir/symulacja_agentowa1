@@ -11,6 +11,8 @@ import java.util.*;
 public class Plansza {
     private final int szerokosc;
     private final int wysokosc;
+    public List<Mysz> getMyszy() { return myszy; }
+    public List<Ser> getSery() { return sery; }
     private final List<Norka> norki = new ArrayList<>();
     private final List<Mysz> myszy = new ArrayList<>();
     private final List<Ser> sery = new ArrayList<>();
