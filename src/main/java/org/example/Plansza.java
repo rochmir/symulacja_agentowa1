@@ -169,7 +169,7 @@ public class Plansza {
             System.out.println();
         }
         System.out.println("Myszy na planszy: " + myszy.size());
-        System.out.println("Myszy żywe (na planszy + w norce): " + (myszy.size() + liczbaZywychMyszy));
+        System.out.println("Myszy zywe (na planszy + w norce): " + (myszy.size() + liczbaZywychMyszy));
         System.out.println("Koty: " + koty.size());
         System.out.println("Sery: " + sery.size());
         System.out.println("Norki: " + norki.size());

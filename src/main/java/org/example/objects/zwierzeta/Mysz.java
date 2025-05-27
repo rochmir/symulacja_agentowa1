@@ -43,9 +43,9 @@ public class Mysz extends Zwierze {
         this.energia = MAX_ENERGIA;
     }
 
-    public boolean czyNieaktywna() {
+    /*public boolean czyNieaktywna() {
         return energia <= 0;
-    }
+    }*/
 
     @Override
     public void wyswietl() {

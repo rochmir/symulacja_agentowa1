@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+
+\title{Notatka Projekt Obiektówka}
+
+
+\begin{document}
+\section*{Opis klas i metod projektu}
+
+\subsection*{Klasa \texttt{Symulacja}}
+Odpowiada za uruchomienie i sterowanie całą symulacją.
+\begin{itemize}
+
+  \item \texttt{main} -- pobiera dane od użytkownika (rozmiar planszy, liczba obiektów), tworzy planszę i uruchamia symulację.
+  \item \texttt{uruchomSymulacje} -- wykonuje kolejne kroki symulacji: wyświetla planszę, zapisuje statystyki do pliku, kończy gdy nie ma kotów lub myszy.
+  \item \texttt{wczytajLiczbe} -- pobiera liczbę od użytkownika, sprawdza czy jest w odpowiednim zakresie i czy jest liczbą całkowitą.
+  \item \texttt{wyswietlKomunikatZakonczenia} -- wypisuje na końcu odpowiedni komunikat w zależności od tego, czy wyginęły koty, myszy, czy oba.
+\end{itemize}
+
+\subsection*{Klasa \texttt{Plansza}}
+Przechowuje wszystkie obiekty na planszy: koty, myszy, norki, sery.
+\begin{itemize}
+  \item \texttt{symulujKrok} -- wykonuje jeden krok symulacji: dodaje nowe myszy z norek, porusza zwierzęta, sprawdza zjadanie, usuwa martwe zwierzęta.
+  \item \texttt{wyswietlPlansze} -- rysuje planszę w konsoli, pokazuje liczbę każdego typu obiektu.
+  \item \texttt{getKoty}, \texttt{getMyszy}, \texttt{getNorki}, \texttt{getSery} -- zwracają listy odpowiednich obiektów.
+  \item \texttt{getLiczbaZywychMyszy} -- zwraca liczbę wszystkich żywych myszy (na planszy i tych, które jeszcze nie wyszły z norek).
+\end{itemize}
+
+\subsection*{Klasa \texttt{CSVWriter}}
+Zajmuje się zapisem statystyk symulacji do pliku CSV.
+\begin{itemize}
+  \item \texttt{zapisz} -- dodaje nowy wiersz z danymi (krok, liczba kotów, liczba myszy).
+  \item \texttt{zamknij} -- zamyka plik po zakończeniu zapisu.
+\end{itemize}
+
+\subsection*{Klasa \texttt{ObiektPlanszy}}
+Klasa bazowa dla wszystkich obiektów na planszy, przechowuje współrzędne.
+\begin{itemize}
+  \item \texttt{getX}, \texttt{getY} -- zwracają aktualne współrzędne obiektu.
+  \item \texttt{setX}, \texttt{setY} -- ustawiają nowe współrzędne.
+  \item \texttt{wyswietl} -- wyświetla symbol obiektu na planszy.
+\end{itemize}
+
+\subsection*{Klasa \texttt{Norka}}
+Reprezentuje norkę, z której może wyjść mysz.
+\begin{itemize}
+  \item \texttt{czyMyszWyszla} -- sprawdza, czy z tej norki już wyszła mysz.
+  \item \texttt{ustawMyszWyszla} -- ustawia informację, czy mysz wyszła z norki.
+  \item \texttt{wyswietl} -- wyświetla symbol norki.
+\end{itemize}
+
+\subsection*{Klasa \texttt{Ser}}
+Reprezentuje ser na planszy, który mogą zjeść myszy lub koty.
+\begin{itemize}
+  \item \texttt{wyswietl} -- wyświetla symbol sera.
+\end{itemize}
+
+\subsection*{Klasa \texttt{Zwierze}}
+\begin{itemize}
+  \item Klasa bazowa dla zwierząt (kot, mysz), przechowuje energię.
+  \item \texttt{poruszajSie} -- abstrakcyjna metoda ruchu zwierzęcia.
+  \item \texttt{czyZywy} -- sprawdza, czy zwierzę ma jeszcze energię (czy żyje).
+\end{itemize}
+
+\subsection*{Klasa \texttt{Kot}}
+Reprezentuje kota na planszy.
+\begin{itemize}
+  \item \texttt{poruszajSie} -- losowo przesuwa kota po planszy, zmniejsza energię.
+  \item \texttt{zjedzMysz} -- kot odzyskuje maksymalną energię po zjedzeniu myszy.
+  \item \texttt{czyZywy} -- sprawdza, czy kot ma energię.
+  \item \texttt{wyswietl} -- wyświetla symbol kota.
+\end{itemize}
+
+\subsection*{Klasa \texttt{Mysz}}
+Reprezentuje mysz na planszy.
+\begin{itemize}
+  \item \texttt{poruszajSie} -- losowo przesuwa mysz po planszy, zmniejsza energię, ustawia mysz jako aktywną.
+  \item \texttt{czyAktywna} -- sprawdza, czy mysz wyszła już z norki.
+  \item \texttt{ustawAktywna} -- ustawia aktywność myszy.
+  \item \texttt{czyZywy} -- sprawdza, czy mysz ma energię.
+  \item \texttt{zjedzSer} -- mysz odzyskuje maksymalną energię po zjedzeniu sera.
+  \item \texttt{wyswietl} -- wyświetla symbol myszy.
+\end{itemize}
+
+\end{document}
