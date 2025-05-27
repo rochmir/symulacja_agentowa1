@@ -13,10 +13,10 @@ Symulacja -> Plansza: new Plansza(szerokosc, wysokosc, liczbaNorek, liczbaKotow,
 Plansza -> Norka: inicjalizujNorki()
 Plansza -> Ser: inicjalizujSery()
 Plansza -> Kot: inicjalizujKoty()
-Symulacja -> CSVWriter: new CSVWriter()
+Symulacja -> CSVWriter: new CSVWriter("statystki.csv")
 
 loop while !koty.isEmpty() && liczbaZywychMyszy > 0
-    Symulacja -> CSVWriter: zapiszKrok(...)
+    Symulacja -> CSVWriter: zapisz(krok, liczbaKotow, liczbaMyszy)
     Symulacja -> Plansza: symulujKrok()
     loop dla każdej norki
         Plansza -> Mysz: new Mysz() [if random < 0.5]

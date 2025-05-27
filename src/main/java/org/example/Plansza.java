@@ -70,7 +70,7 @@ public class Plansza {
     public void symulujKrok() {
         // Dodawanie myszy z prawdopodobieństwem 0.5 przy każdej norki
         for (Norka norka : norki) {
-            if (random.nextDouble() < 0.5 && liczbaZywychMyszy > 0) {
+            if (!norka.czyMyszWyszla() && random.nextDouble() < 0.5 && liczbaZywychMyszy > 0) {
                 int[] dx = {-1, 0, 1, 0, -1, 1, -1, 1};
                 int[] dy = {0, -1, 0, 1, -1, -1, 1, 1};
                 List<int[]> wolne = new ArrayList<>();
@@ -85,6 +85,7 @@ public class Plansza {
                     int[] pos = wolne.get(random.nextInt(wolne.size()));
                     myszy.add(new Mysz(szerokosc, wysokosc, pos[0], pos[1]));
                     liczbaZywychMyszy--;
+                    norka.ustawMyszWyszla(true); // oznacz, że z tej norki już wyszła mysz
                 }
             }
         }
@@ -173,7 +174,7 @@ public class Plansza {
         System.out.println("Sery: " + sery.size());
         System.out.println("Norki: " + norki.size());
     }
-
+    public List<Norka> getNorki() { return norki;}
     public List<Kot> getKoty() { return koty; }
     public int getLiczbaZywychMyszy() { return liczbaZywychMyszy + myszy.size(); }
 }

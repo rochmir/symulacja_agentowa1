@@ -1,2 +1,2 @@
-Bardzo ważny projekt dla rozwoju mojej kariery naukowej, siedze nad tym całe dnie i myślę co ja robię ze swoim życiem.
-Pozdrawiam Panią Doktor Klikowską 
+Bardzo ważny projekt dla rozwoju naszej kariery naukowej, siedzimy nad tym całe dnie i myślimy co my robimy ze swoim życiem.
+Pozdrawiamy Panią Doktor Klikowską 
