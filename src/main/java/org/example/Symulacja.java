@@ -26,7 +26,7 @@ public class Symulacja {
             Plansza plansza = new Plansza(szerokoscPlanszy, wysokoscPlanszy, liczbaNorek, liczbaKotow, liczbaSera);
             uruchomSymulacje(plansza);
         }
-        // Wyłapywanie nieprzewidzianych wyjątków
+        // Wyłapywanie nieprzewidzianych  wyjątków
         catch (Exception e) {
             System.out.println("Wystapil blad podczas tworzenia planszy: " + e.getMessage());
         }
