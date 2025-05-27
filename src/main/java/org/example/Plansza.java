@@ -120,7 +120,7 @@ public class Plansza {
         myszy.removeAll(zjedzoneMyszy);
 
         // Zjadanie sera przez myszy i koty
-        List<Ser> zjedzonySer = new ArrayList<>();
+        Set<Ser> zjedzonySer = new HashSet<>();
         for (Mysz mysz : myszy) {
             if (mysz.czyAktywna()) {
                 for (Ser ser : sery) {

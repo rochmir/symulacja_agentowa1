@@ -33,19 +33,17 @@ public class Symulacja {
     private static void uruchomSymulacje(Plansza plansza) {
     System.out.println("Rozpoczynam symulacje...");
     int krok = 0;
-    CSVWriter csvWriter = new CSVWriter();
+    CSVWriter csvWriter = new CSVWriter("statystki.csv");
 
     while (!plansza.getKoty().isEmpty() && plansza.getLiczbaZywychMyszy() > 0) {
         System.out.println("Krok: " + krok);
         plansza.wyswietlPlansze();
 
         // Zapisz dane do pliku CSV
-        csvWriter.zapiszKrok(
+        csvWriter.zapisz(
                 krok,
-                plansza.getMyszy().size(),
-                plansza.getLiczbaZywychMyszy(),
                 plansza.getKoty().size(),
-                plansza.getSery().size()
+                plansza.getLiczbaZywychMyszy()
         );
 
         plansza.symulujKrok();
@@ -60,13 +58,11 @@ public class Symulacja {
     }
 
     // Zapisz ostatni krok
-    csvWriter.zapiszKrok(
-            krok,
-            plansza.getMyszy().size(),
-            plansza.getLiczbaZywychMyszy(),
-            plansza.getKoty().size(),
-            plansza.getSery().size()
-    );
+        csvWriter.zapisz(
+                krok,
+                plansza.getKoty().size(),
+                plansza.getLiczbaZywychMyszy()
+        );
 
     csvWriter.zamknij();
     System.out.println("Dane zapisano do pliku CSV.");
