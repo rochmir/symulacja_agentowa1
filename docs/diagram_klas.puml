@@ -33,11 +33,10 @@ package "org.example" {
   class CSVWriter {
     -nazwaPliku: String
     -writer: FileWriter
-    +CSVWriter()
-    +zapiszKrok(krok: int, myszyNaPlanszy: int, myszyZywe: int, koty: int, sery: int): void
+    +CSVWriter(filePath: String)
+    +zapisz(krok: int, liczbaKotow: int, liczbaMyszy: int): void
     +zamknij(): void
   }
-}
 
 package "org.example.objects" {
   abstract class ObiektPlanszy {
