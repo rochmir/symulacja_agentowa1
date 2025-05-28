@@ -11,8 +11,6 @@ public abstract class ObiektPlanszy {
 
     public int getX() { return x; }//pobiera aktualną współrzędną x
     public int getY() { return y; }//pobiera aktualną współrzędną y
-    public void setX(int x) { this.x = x; }//metoda ustawiająca konkretną współrzędną x
-    public void setY(int y) { this.y = y; }//metoda ustawiająca konkretną współrzędną y
 
-    public abstract void wyswietl();//metoda wyświetlająca symbole obiektów
+    public abstract char  wyswietl();//metoda wyświetlająca symbole obiektów
 }

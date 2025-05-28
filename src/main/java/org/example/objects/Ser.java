@@ -6,7 +6,7 @@ public class Ser extends ObiektPlanszy {
     }
 
     @Override
-    public void wyswietl() {
-        System.out.print("S");//wyświetlenie symbolu sera
+    public char wyswietl() {
+        return 'S';//wyświetlenie symbolu sera
     }
 }

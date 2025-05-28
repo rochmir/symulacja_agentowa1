@@ -16,7 +16,7 @@ public class Norka extends ObiektPlanszy {
     }
 
     @Override
-    public void wyswietl() {
-        System.out.print("N");
+    public char wyswietl() {
+        return 'N';
     }
 }

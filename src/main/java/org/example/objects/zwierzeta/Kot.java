@@ -31,7 +31,7 @@ public class Kot extends Zwierze {
     }
 
     @Override
-    public void wyswietl() {
-        System.out.print("K");
+    public char wyswietl() {
+        return 'K'; // Zwraca znak reprezentujący kota
     }
 }

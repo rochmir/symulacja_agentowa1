@@ -97,15 +97,7 @@ public class Plansza {
 
         // Ruch kotów (nie mogą wejść na norkę)
         for (Kot kot : new ArrayList<>(koty)) {
-            int stareX = kot.getX();
-            int stareY = kot.getY();
-            kot.poruszajSie(szerokosc, wysokosc);
-            for (Norka norka : norki) {
-                if (kot.getX() == norka.getX() && kot.getY() == norka.getY()) {
-                    kot.setX(stareX);
-                    kot.setY(stareY);
-                }
-            }
+           kot.poruszajSie(szerokosc, wysokosc);
         }
 
         // Zjadanie myszy przez koty
@@ -159,10 +151,10 @@ public class Plansza {
         for (int i = 0; i < wysokosc; i++)
             for (int j = 0; j < szerokosc; j++)
                 mapa[i][j] = '.';
-        for (Norka n : norki) mapa[n.getY()][n.getX()] = 'N';
-        for (Ser s : sery) mapa[s.getY()][s.getX()] = 'S';
-        for (Mysz m : myszy) if (m.czyAktywna()) mapa[m.getY()][m.getX()] = 'M';
-        for (Kot k : koty) if (k.czyZywy()) mapa[k.getY()][k.getX()] = 'K';
+        for (Norka n : norki) mapa[n.getY()][n.getX()] = n.wyswietl();
+        for (Ser s : sery) mapa[s.getY()][s.getX()] = s.wyswietl();
+        for (Mysz m : myszy) if (m.czyAktywna()) mapa[m.getY()][m.getX()] = m.wyswietl();
+        for (Kot k : koty) if (k.czyZywy()) mapa[k.getY()][k.getX()] = k.wyswietl();
         for (int i = 0; i < wysokosc; i++) {
             for (int j = 0; j < szerokosc; j++)
                 System.out.print(mapa[i][j] + " ");

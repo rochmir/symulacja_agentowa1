@@ -48,7 +48,7 @@ public class Mysz extends Zwierze {
     }*/
 
     @Override
-    public void wyswietl() {
-        System.out.print("M");
+    public char wyswietl() {
+        return 'M'; // Zwraca znak reprezentujący mysz
     }
 }
