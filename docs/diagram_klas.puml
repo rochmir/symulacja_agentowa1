@@ -31,7 +31,6 @@ package "org.example" {
   }
 
   class CSVWriter {
-    -nazwaPliku: String
     -writer: FileWriter
     +CSVWriter(filePath: String)
     +zapisz(krok: int, liczbaKotow: int, liczbaMyszy: int): void
@@ -51,7 +50,10 @@ package "org.example.objects" {
   }
 
   class Norka {
+    -czyMyszWyszla: boolean
     +Norka(szerokoscPlanszy: int, wysokoscPlanszy: int)
+    +czyMyszWyszla(): boolean
+    +ustawMyszWyszla(wyszla: boolean): void
     +wyswietl(): void
   }
 
@@ -90,7 +92,6 @@ package "org.example.objects.zwierzeta" {
     +poruszajSie(szerokoscPlanszy: int, wysokoscPlanszy: int): void
     +czyZywy(): boolean
     +zjedzSer(): void
-    +czyNieaktywna(): boolean
     +wyswietl(): void
   }
 }
